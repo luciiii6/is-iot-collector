@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<setup>
+    <location>
+        <latitude>0</latitude>
+        <longitude>0</longitude>
+    </location>
+    <soilMoisture>
+        <lowLimit>17616</lowLimit>
+        <highLimit>9360</highLimit>
+    </soilMoisture>
+</setup>
