@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <setup>
     <location>
-        <latitude>0</latitude>
-        <longitude>0</longitude>
+        <!-- Sibiu, Romania-->
+        <latitude>41.8</latitude>
+        <longitude>24.15</longitude>
     </location>
     <soilMoisture>
         <lowLimit>17616</lowLimit>
