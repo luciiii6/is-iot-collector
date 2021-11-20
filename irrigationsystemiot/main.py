@@ -12,7 +12,9 @@ def main():
     air_temp = '-'
     air_hum = '-'
 
-    f = open("output.txt", "a")
+    output_file = utils.find_next_output_file()
+
+    f = open(output_file, "a")
     f.write("Time Stamp,Soil Moisture,Air Temperature,Air Humidity\n")
     f.close()
     
@@ -34,11 +36,10 @@ def main():
 
         output = "{},{}%,{}%,{}C,{}%\n".format(current_time, soil_temp[0], soil_temp[1], air_temp, air_hum)
         print(output)
-        f = open("output.txt", "a")
+        f = open(output_file, "a")
         f.write(output)
         f.close()
         time.sleep(2)
     
-
 if __name__ == "__main__":
     main()
