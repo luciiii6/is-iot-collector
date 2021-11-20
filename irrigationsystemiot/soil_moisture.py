@@ -8,19 +8,28 @@ class SoilMoisture:
     def __init__(self):
         self.__i2c = busio.I2C(board.SCL, board.SDA)
         self.__ads = ADS.ADS1015(self.__i2c)
-        self.__chan = AnalogIn(self.__ads, ADS.P0)
+        self.__chan0 = AnalogIn(self.__ads, ADS.P0)
+        self.__chan1 = AnalogIn(self.__ads, ADS.P1)
         self.low_limit = int(utils.getSetting('lowLimit'))
         self.high_limit = int(utils.getSetting('highLimit'))
 
-    def get_moisture_pct(self):
-        try:
-            return self.__calculate_percentage(self.__chan.value)
-        except Exception as ex:
-            raise ex
+    def get_moisture_pct(self, chan = None):
+        if chan == None:
+            return self.__calculate_percentage(self.get_moisture_raw(0)), self.__calculate_percentage(self.get_moisture_raw(1))
+        if isinstance(chan, int):
+            return self.__calculate_percentage(self.get_moisture_raw(chan))
 
-    def get_moisture_raw(self):
+    def get_moisture_raw(self, chan: int):
+        ads_chan = None
+        if chan == 0:
+            ads_chan = self.__chan0
+        elif chan == 1:
+            ads_chan = self.__chan1
+        else:
+            raise ValueError("Invalid channel number!")
+
         try:
-            return self.__chan.value
+            return ads_chan.value
         except Exception as ex:
             raise ex
 
