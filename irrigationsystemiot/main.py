@@ -3,12 +3,14 @@ import utils
 import weather
 import soil_moisture
 import air_properties        
+import mqtt_client
 from datetime import datetime
 
 def main():
     soil = soil_moisture.SoilMoisture()
     air = air_properties.AirProperties()
     w = weather.Weather(utils.getSetting('latitude'), utils.getSetting('longitude'))
+    mqttclient = mqtt_client.MQTTClient()
     air_temp = '-'
     air_hum = '-'
 

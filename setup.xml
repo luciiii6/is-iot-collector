@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <setup>
+    <name>Zone1</name>
     <location>
         <!-- Sibiu, Romania-->
         <latitude>41.8</latitude>
         <longitude>24.15</longitude>
     </location>
     <soilMoisture>
-        <lowLimit>17616</lowLimit>
-        <highLimit>9360</highLimit>
+        <lowLimit>17904</lowLimit>
+        <highLimit>8992</highLimit>
     </soilMoisture>
+    <mqtt>
+        <host>192.168.0.10</host>
+        <topic>/data</topic>
+    </mqtt>
 </setup>
