@@ -3,7 +3,7 @@ import glob
 import re
 import pathlib
 
-def getSetting(setting):
+def getSetting(setting: str):
     file = open("/home/pi/IrrigationSystemIoT/setup.xml")
     tree = ET.parse(file)
     root = tree.getroot() 
