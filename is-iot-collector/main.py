@@ -2,7 +2,7 @@ import time
 import utils
 import weather
 import soil_moisture
-import air_properties        
+import air_properties
 import mqtt_client
 from datetime import datetime
 
@@ -19,7 +19,7 @@ def main():
     f = open(output_file, "a")
     f.write("Time Stamp,Soil Moisture,Air Temperature,Air Humidity\n")
     f.close()
-    
+
     while(True):
         soil_temp = soil.get_moisture_pct()
 
@@ -41,7 +41,7 @@ def main():
         f = open(output_file, "a")
         f.write(output)
         f.close()
-        time.sleep(2)
-    
+        time.sleep(15)
+
 if __name__ == "__main__":
     main()
