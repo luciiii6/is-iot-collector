@@ -4,7 +4,7 @@ import re
 import pathlib
 
 def getSetting(setting: str):
-    file = open("/home/pi/IrrigationSystemIoT/setup.xml")
+    file = open("./setup.xml")
     tree = ET.parse(file)
     root = tree.getroot() 
     result = root.iter(setting)

@@ -1,6 +1,5 @@
 import time
 import utils
-import weather
 import soil_moisture
 import air_properties
 import mqtt_client
@@ -9,15 +8,15 @@ from datetime import datetime
 def main():
     soil = soil_moisture.SoilMoisture()
     air = air_properties.AirProperties()
-    w = weather.Weather(utils.getSetting('latitude'), utils.getSetting('longitude'))
     mqttclient = mqtt_client.MQTTClient()
+    reading_time = utils.getSetting('readingTime')
     air_temp = '-'
     air_hum = '-'
 
     output_file = utils.find_next_output_file()
 
     f = open(output_file, "a")
-    f.write("Time Stamp,Soil Moisture,Air Temperature,Air Humidity\n")
+    f.write("Time Stamp,Soil Moisture[0],Soil Moisture[1],Air Temperature,Air Humidity\n")
     f.close()
 
     while(True):
@@ -41,7 +40,7 @@ def main():
         f = open(output_file, "a")
         f.write(output)
         f.close()
-        time.sleep(15)
+        time.sleep(reading_time)
 
 if __name__ == "__main__":
     main()

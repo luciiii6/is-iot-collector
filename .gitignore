@@ -133,3 +133,6 @@ outputs/
 
 # Logs
 logs/
+
+# nohup
+nohup.out
