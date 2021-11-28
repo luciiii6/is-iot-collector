@@ -40,7 +40,7 @@ def main():
         f = open(output_file, "a")
         f.write(output)
         f.close()
-        time.sleep(reading_time)
+        time.sleep(int(reading_time))
 
 if __name__ == "__main__":
     main()
