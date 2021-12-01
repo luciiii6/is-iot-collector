@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <setup>
-    <name>Zone1</name>
+    <name>collector0000</name>
     <readingTime>15</readingTime>
     <soilMoisture>
         <lowLimit>17904</lowLimit>
@@ -8,6 +8,7 @@
     </soilMoisture>
     <mqtt>
         <host>192.168.0.10</host>
-        <topic>/data</topic>
+        <topic>/data/</topic>
+        <registrationTopic>/registration/</registrationTopic>
     </mqtt>
 </setup>
