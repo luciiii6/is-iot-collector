@@ -4,10 +4,10 @@ import paho.mqtt.client as mqttclient
 
 class MQTTPublisher:
     def __init__(self):
-        self.__host = utils.getSetting("host")
-        self.__name = utils.getSetting("name")
-        self.__topic = utils.getSetting("topic") + self.__name + "/"
-        self.__registrationTopic = utils.getSetting("registrationTopic")
+        self.__host = utils.get_setting("mqtt/host")
+        self.__name = utils.get_setting("name")
+        self.__topic = utils.get_setting("mqtt/topics/data") + self.__name + "/"
+        self.__registrationTopic = utils.get_setting("mqtt/topics/registration")
         self.__client = mqttclient.Client(self.__name)
         self.__client.on_connect = self.__on_connect
         self.__client.on_disconnect = self.__on_disconnect

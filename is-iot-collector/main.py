@@ -9,7 +9,7 @@ def main():
     soil = soil_moisture.SoilMoisture()
     air = air_properties.AirProperties()
     mqtt_client = mqtt.MQTTPublisher()
-    reading_time = utils.getSetting('readingTime')
+    reading_time = utils.get_setting('readingTime')
     air_temp = '-'
     air_hum = '-'
 

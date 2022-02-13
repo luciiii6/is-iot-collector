@@ -10,8 +10,8 @@ class SoilMoisture:
         self.__ads = ADS.ADS1015(self.__i2c)
         self.__chan0 = AnalogIn(self.__ads, ADS.P0)
         self.__chan1 = AnalogIn(self.__ads, ADS.P1)
-        self.low_limit = int(utils.getSetting('lowLimit'))
-        self.high_limit = int(utils.getSetting('highLimit'))
+        self.low_limit = int(utils.get_setting('soilMoisture/lowLimit'))
+        self.high_limit = int(utils.get_setting('soilMoisture/highLimit'))
 
     def get_moisture_pct(self, chan = None):
         if chan == None:
