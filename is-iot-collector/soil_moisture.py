@@ -53,11 +53,11 @@ class SoilMoisture:
 
         if len(self.__chans) == 0:
             LOG.err("No channels available!")
-            return None
+            return None 
 
         results = []
         for pin in self.__chans.keys():
-            results.insert(self.__calculate_percentage(self.__get_moisture_raw(self.__chans[pin])))
+            results.append(self.__calculate_percentage(self.__get_moisture_raw(self.__chans[pin])))
         return results
 
     def get_moisture_raw(self, pin: int):        
