@@ -1,19 +1,28 @@
 import xml.etree.ElementTree as ET
+from logger import LOG
 import glob
 import re
 import pathlib
 
 def get_setting(setting: str):
+    try:
     file = open("./setup.xml")
     tree = ET.parse(file)
+    except:
+        LOG.err("Invalid configuration file! {}".format(file.name))
+        return
     root = tree.getroot() 
     if setting.startswith("./") == False:
         setting = "./" + setting
     return root.findall(setting)[0].text
 
 def get_settings(settings: str):
+    try:
     file = open("./setup.xml")
     tree = ET.parse(file)
+    except:
+        LOG.err("Invalid configuration file! {}".format(file.name))
+        return
     root = tree.getroot() 
     if settings.startswith("./") == False:
         settings = "./" + settings
