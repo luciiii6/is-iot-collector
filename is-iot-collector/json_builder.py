@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+import time
 import utils
 from enum import Enum
 
@@ -17,9 +17,8 @@ class JsonBuilder:
     def add_timestamp(self):
         if ('date' in self.__data):
             return
-        now = datetime.now()
-        current_time = now.strftime("%D %H:%M:%S")
-        self.__data['date'] = current_time
+        now = time.time()
+        self.__data['timestamp'] = now
         return
 
     def add_key(self, key: KeyType, value):
