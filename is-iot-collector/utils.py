@@ -6,8 +6,8 @@ import pathlib
 
 def get_setting(setting: str):
     try:
-    file = open("./setup.xml")
-    tree = ET.parse(file)
+        file = open("./setup.xml")
+        tree = ET.parse(file)
     except:
         LOG.err("Invalid configuration file! {}".format(file.name))
         return
@@ -18,8 +18,8 @@ def get_setting(setting: str):
 
 def get_settings(settings: str):
     try:
-    file = open("./setup.xml")
-    tree = ET.parse(file)
+        file = open("./setup.xml")
+        tree = ET.parse(file)
     except:
         LOG.err("Invalid configuration file! {}".format(file.name))
         return
@@ -37,14 +37,14 @@ def find_next_output_file():
     
     filepath = pathlib.Path(__file__).parent.parent.joinpath("outputs")
     number = 0
-    numbers = list()
+    numbers = []
     for file in glob.iglob('outputs/*', recursive=True):
-        x = re.search("outputs\\/output([0-9]+).txt", file)
+        x = re.search("outputs\\/output([0-9]+).log", file)
         if x == None:
             break
         numbers.append(int(x.groups()[0]))
 
-    if numbers.count != 0:
+    if len(numbers) != 0:
         number = max(numbers) + 1
     
-    return filepath.joinpath("output{}.txt".format(number))
+    return filepath.joinpath("output{}.log".format(number))
