@@ -33,26 +33,26 @@ class SoilMoisture:
 
     def get_one_moisture_percent(self, pin: int):
         if not self.__connected:
-            LOG.err("I2C Bus not connected!")
+            LOG.critical("I2C Bus not connected!")
             return None
 
         if len(self.__chans) == 0:
-            LOG.err("No channels available!")
+            LOG.critical("No channels available!")
             return None
 
         if pin not in self.__chans.keys():
-            LOG.err("No channel found on pin: {}".format(pin))
+            LOG.critical("No channel found on pin: {}".format(pin))
             return None
 
         return self.__calculate_percentage(self.__get_moisture_raw(self.__chans[pin]))
 
     def get_all_moistures_percent(self):
         if not self.__connected:
-            LOG.err("I2C Bus not connected!")
+            LOG.critical("I2C Bus not connected!")
             return None
 
         if len(self.__chans) == 0:
-            LOG.err("No channels available!")
+            LOG.critical("No channels available!")
             return None 
 
         results = []
@@ -62,11 +62,11 @@ class SoilMoisture:
 
     def get_moisture_raw(self, pin: int):        
         if not self.__connected:
-            LOG.err("I2C Bus not connected!")
+            LOG.critical("I2C Bus not connected!")
             return None
 
         if pin not in self.__chans.keys():
-            LOG.err("No channel found on pin: {}".format(pin))
+            LOG.critical("No channel found on pin: {}".format(pin))
             return None
 
         try:
