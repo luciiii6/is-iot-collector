@@ -4,7 +4,7 @@ import json_builder
 import soil_moisture
 import air_properties
 import mqtt_publisher as mqtt
-from datetime import datetime
+from logger import LOG
 
 def main():
     soil = soil_moisture.SoilMoisture()
@@ -15,11 +15,6 @@ def main():
     air_hum = '-'
 
     output_file = utils.find_next_output_file()
-
-    f = open(output_file, "a")
-    f.write("Time Stamp,Soil Moisture[0],Soil Moisture[1],Air Temperature,Air Humidity\n")
-    f.close()
-
     mqtt_client.register()
 
     while(True):
@@ -45,7 +40,7 @@ def main():
         jdata.add_timestamp()
 
         output = jdata.dumps()
-        print(output)
+        LOG.info(output)
         f = open(output_file, "a")
         f.write(output + "\n")
         f.close()
