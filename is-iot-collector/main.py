@@ -1,5 +1,6 @@
 import time
 import utils
+import json_builder
 import soil_moisture
 import air_properties
 import mqtt_publisher as mqtt
@@ -22,22 +23,26 @@ def main():
     mqtt_client.register()
 
     while(True):
-        soil_temp = soil.get_moisture_pct()
+        jdata = json_builder.JsonBuilder()
+        moisture = soil.get_all_moistures_percent()
+        if moisture != None:
+            jdata.add_key(json_builder.KeyType.SOIL_MOISTURE, moisture)
 
         try:
             air_hum = air.get_humidity()
-        except Exception as ex:
-            air_hum = '-'
+            jdata.add_key(json_builder.KeyType.AIR_HUMMIDITY, air_hum)
+        except:
+            pass
 
         try:
             air_temp = air.get_temperature()
-        except Exception as ex:
-            air_temp = '-'
+            jdata.add_key(json_builder.KeyType.AIR_TEMPERATURE, air_temp)
+        except:
+            pass
 
-        now = datetime.now()
-        current_time = now.strftime("%D %H:%M:%S")
+        jdata.add_timestamp()
 
-        output = "{},{}%,{}%,{}C,{}%".format(current_time, soil_temp[0], soil_temp[1], air_temp, air_hum)
+        output = jdata.dumps()
         print(output)
         f = open(output_file, "a")
         f.write(output + "\n")

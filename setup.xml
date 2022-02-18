@@ -3,6 +3,7 @@
     <name>collector0000</name>
     <readingTime>15</readingTime>
     <soilMoisture>
+        <pins>0,1</pins>
         <lowLimit>17904</lowLimit>
         <highLimit>8992</highLimit>
     </soilMoisture>
