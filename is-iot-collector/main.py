@@ -3,6 +3,7 @@ import utils
 import json_builder
 import soil_moisture
 import air_properties
+import local_tinydb
 import mqtt_publisher as mqtt
 from logger import LOG
 
@@ -10,9 +11,8 @@ def main():
     soil = soil_moisture.SoilMoisture()
     air = air_properties.AirProperties()
     mqtt_client = mqtt.MQTTPublisher()
+    tinyDB = local_tinydb.LocalTinyDB()
     reading_time = utils.get_setting('readingTime')
-    air_temp = '-'
-    air_hum = '-'
 
     output_file = utils.find_next_output_file()
     mqtt_client.register()
@@ -38,13 +38,18 @@ def main():
             pass
 
         jdata.add_timestamp()
-
         output = jdata.dumps()
+
+        tinyDB.insert(output)
+
         LOG.info(output)
         f = open(output_file, "a")
         f.write(output + "\n")
         f.close()
-        mqtt_client.publish(output)
+
+        if tinyDB.is_valid(output):
+            mqtt_client.publish(output)
+
         time.sleep(int(reading_time))
 
 if __name__ == "__main__":

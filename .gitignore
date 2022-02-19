@@ -136,3 +136,6 @@ logs/
 
 # nohup
 nohup.out
+
+# TinyDB file
+*.json
