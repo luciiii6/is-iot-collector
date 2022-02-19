@@ -11,7 +11,7 @@ class LocalTinyDB:
     def insert(self, doc):
         if not isinstance(doc, dict):
             doc = json.loads(doc)
-            
+
         self.__clear_readings()
         self.__db.insert(doc)
 
@@ -37,7 +37,6 @@ class LocalTinyDB:
             set = self.__db.search(
                 (reading.airHummidity > doc['airHummidity'] + treshold) |
                 (reading.airHummidity < doc['airHummidity'] - treshold))
-            print("airhum {} >< {}".format(doc['airHummidity'], set))
             if len(set) > 0:
                 return True
 
@@ -48,7 +47,6 @@ class LocalTinyDB:
             set = self.__db.search(
                 (reading.airTemperature > doc['airTemperature'] + treshold) | 
                 (reading.airTemperature < doc['airTemperature'] - treshold))
-            print("airtemp {} >< {}".format(doc['airTemperature'], set))
             if len(set) > 0:
                 return True
 
