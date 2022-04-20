@@ -22,31 +22,31 @@ class LocalTinyDB:
         # Check soil moistures values
         if 'soilMoisture' in doc.keys():
             moistures = doc['soilMoisture']
-            treshold = int(utils.get_setting('localReadings/tresholds/soilMoisture'))
+            threshold = int(utils.get_setting('localReadings/thresholds/soilMoisture'))
             readings = self.__db.all()
             for reading in readings:
                 local_moistures = reading['soilMoisture']
                 for i in range(0, len(local_moistures)):
-                    if local_moistures[i] > moistures[i] + treshold or local_moistures[i] < moistures[i] - treshold:
+                    if local_moistures[i] > moistures[i] + threshold or local_moistures[i] < moistures[i] - threshold:
                         return True
 
         # Check air hummidity values
         if 'airHummidity' in doc.keys():
             reading = Query()
-            treshold = int(utils.get_setting('localReadings/tresholds/airHummidity'))
+            threshold = int(utils.get_setting('localReadings/thresholds/airHummidity'))
             set = self.__db.search(
-                (reading.airHummidity > doc['airHummidity'] + treshold) |
-                (reading.airHummidity < doc['airHummidity'] - treshold))
+                (reading.airHummidity > doc['airHummidity'] + threshold) |
+                (reading.airHummidity < doc['airHummidity'] - threshold))
             if len(set) > 0:
                 return True
 
         # Check air temperature values
         if 'airTemperature' in doc.keys():
             reading = Query()
-            treshold = float(utils.get_setting('localReadings/tresholds/airTemperature'))
+            threshold = float(utils.get_setting('localReadings/thresholds/airTemperature'))
             set = self.__db.search(
-                (reading.airTemperature > doc['airTemperature'] + treshold) | 
-                (reading.airTemperature < doc['airTemperature'] - treshold))
+                (reading.airTemperature > doc['airTemperature'] + threshold) | 
+                (reading.airTemperature < doc['airTemperature'] - threshold))
             if len(set) > 0:
                 return True
 

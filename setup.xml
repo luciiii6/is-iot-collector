@@ -5,11 +5,11 @@
     <localReadings>
         <count>5</count>
         <dbName>local_readings.json</dbName>
-        <tresholds>
+        <thresholds>
             <soilMoisture>1</soilMoisture>
             <airHummidity>1</airHummidity>
             <airTemperature>0.1</airTemperature>
-        </tresholds>
+        </thresholds>
     </localReadings>
     <soilMoisture>
         <pins>0,1</pins>
