@@ -13,11 +13,17 @@ def main():
     mqtt_client = mqtt.MQTTPublisher()
     tinyDB = local_tinydb.LocalTinyDB()
     reading_time = int(utils.get_setting('readingTime'))
+    register_time = int(utils.get_setting('registerTime'))
+    register_expires_at = time.time() + register_time
 
     output_file = utils.find_next_output_file()
     mqtt_client.register()
 
     while(True):
+        if time.time() > register_expires_at:
+            mqtt_client.register()
+            register_expires_at = time.time() + register_time
+
         jdata = json_builder.JsonBuilder()
         moisture = soil.get_all_moistures_percent()
         if moisture != None:

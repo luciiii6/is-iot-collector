@@ -2,6 +2,8 @@
 <setup>
     <id>0000</id>
     <readingTime>15</readingTime>
+    <!-- Re-register time in seconds. 1h = 3600s -->
+    <registerTime>3600</registerTime>
     <localReadings>
         <count>5</count>
         <dbName>local_readings.json</dbName>
