@@ -22,6 +22,7 @@ class MQTTPublisher:
             self.connect()
         except Exception as ex:
             LOG.err("MQTT Client failed to connect!")
+            return
 
         try:
             self.__client.loop_start()
@@ -36,6 +37,7 @@ class MQTTPublisher:
             self.connect()
         except Exception as ex:
             LOG.err("MQTT Client failed to connect!")
+            return
 
         try:
             self.__client.loop_start()
