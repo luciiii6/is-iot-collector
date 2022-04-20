@@ -1,4 +1,5 @@
 import utils
+import json
 from logger import LOG
 import paho.mqtt.client as mqttclient
 
@@ -24,9 +25,10 @@ class MQTTPublisher:
             LOG.err("MQTT Client failed to connect!")
             return
 
+        register_message = json.dumps({'collectorId' : self.__id})
         try:
             self.__client.loop_start()
-            self.__client.publish(self.__registrationTopic, self.__id)
+            self.__client.publish(self.__registrationTopic, register_message)
             self.__client.loop_stop()
             LOG.info("Collector registered succesfully!")
         except Exception as ex:
