@@ -12,7 +12,7 @@ class KeyType(Enum):
 class JsonBuilder:
     def __init__(self):
         self.__data = {}
-        self.__data['collectorId'] = utils.get_setting('name')[9:]
+        self.__data['collectorId'] = utils.get_setting('id')
     
     def add_timestamp(self):
         if ('date' in self.__data):

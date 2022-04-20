@@ -12,7 +12,7 @@ def main():
     air = air_properties.AirProperties()
     mqtt_client = mqtt.MQTTPublisher()
     tinyDB = local_tinydb.LocalTinyDB()
-    reading_time = utils.get_setting('readingTime')
+    reading_time = int(utils.get_setting('readingTime'))
 
     output_file = utils.find_next_output_file()
     mqtt_client.register()
@@ -50,7 +50,7 @@ def main():
         if tinyDB.is_valid(output):
             mqtt_client.publish(output)
 
-        time.sleep(int(reading_time))
+        time.sleep(reading_time)
 
 if __name__ == "__main__":
     main()

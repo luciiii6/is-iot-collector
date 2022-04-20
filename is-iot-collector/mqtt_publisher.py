@@ -5,32 +5,42 @@ import paho.mqtt.client as mqttclient
 class MQTTPublisher:
     def __init__(self):
         self.__host = utils.get_setting("mqtt/host")
-        self.__name = utils.get_setting("name")
-        self.__topic = utils.get_setting("mqtt/topics/data") + self.__name + "/"
+        self.__id = utils.get_setting("id")
+        self.__topic = utils.get_setting("mqtt/topics/data")
         self.__registrationTopic = utils.get_setting("mqtt/topics/registration")
-        self.__client = mqttclient.Client(self.__name)
+        self.__client = mqttclient.Client("collector" + self.__id)
         self.__client.on_connect = self.__on_connect
         self.__client.on_disconnect = self.__on_disconnect
         #TODO: use authentication
 
+    def connect(self):
+        if not self.__client.is_connected():
+            self.__client.connect(self.__host)
+
     def register(self):
         try:
-            self.__client.connect(self.__host)
+            self.connect()
+        except Exception as ex:
+            LOG.err("MQTT Client failed to connect!")
+
+        try:
             self.__client.loop_start()
-            self.__client.publish(self.__registrationTopic, self.__topic)
+            self.__client.publish(self.__registrationTopic, self.__id)
             self.__client.loop_stop()
-            self.__client.disconnect()
             LOG.info("Collector registered succesfully!")
         except Exception as ex:
             LOG.err("MQTT Client failed to publish!")
 
     def publish(self, message: str):
         try:
-            self.__client.connect(self.__host)
+            self.connect()
+        except Exception as ex:
+            LOG.err("MQTT Client failed to connect!")
+
+        try:
             self.__client.loop_start()
             self.__client.publish(self.__topic, message)
             self.__client.loop_stop()
-            self.__client.disconnect()
         except Exception as ex:
             LOG.err("MQTT Client failed to publish!")
 

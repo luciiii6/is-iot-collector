@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <setup>
-    <name>collector0000</name>
+    <id>0000</id>
     <readingTime>15</readingTime>
     <localReadings>
         <count>5</count>
@@ -17,10 +17,10 @@
         <highLimit>8992</highLimit>
     </soilMoisture>
     <mqtt>
-        <host>192.168.0.10</host>
+        <host>broker.emqx.io</host>
         <topics>
-            <data>/data/</data>
-            <registration>/registration/</registration>
+            <data>/collector/data/</data>
+            <registration>/collector/registration/</registration>
         </topics>
     </mqtt>
 </setup>
