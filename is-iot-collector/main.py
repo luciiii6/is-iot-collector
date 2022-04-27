@@ -29,19 +29,13 @@ def main():
         if moisture != None:
             jdata.add_key(json_builder.KeyType.SOIL_MOISTURE, moisture)
 
-        try:
-            air_hum = air.get_humidity()
-            if air_hum != None:
-                jdata.add_key(json_builder.KeyType.AIR_HUMIDITY, air_hum)
-        except:
-            pass
+        air_hum = air.get_humidity()
+        if air_hum != None:
+            jdata.add_key(json_builder.KeyType.AIR_HUMIDITY, air_hum)
 
-        try:
-            air_temp = air.get_temperature()
-            if air_temp != None:
-                jdata.add_key(json_builder.KeyType.AIR_TEMPERATURE, air_temp)
-        except:
-            pass
+        air_temp = air.get_temperature()
+        if air_temp != None:
+            jdata.add_key(json_builder.KeyType.AIR_TEMPERATURE, air_temp)
 
         jdata.add_timestamp()
         output = jdata.dumps()
