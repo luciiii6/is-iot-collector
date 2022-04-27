@@ -5,7 +5,7 @@ from enum import Enum
 
 class KeyType(Enum):
     SOIL_MOISTURE = 0
-    AIR_HUMMIDITY = 1
+    AIR_HUMIDITY = 1
     AIR_TEMPERATURE = 2
     LIGHT_INTENSITY = 3
 
@@ -25,8 +25,8 @@ class JsonBuilder:
         key_str = ''
         if key == KeyType.SOIL_MOISTURE:
             key_str = 'soilMoisture'
-        elif key == KeyType.AIR_HUMMIDITY:
-            key_str = 'airHummidity'
+        elif key == KeyType.AIR_HUMIDITY:
+            key_str = 'airHumidity'
         elif key == KeyType.AIR_TEMPERATURE:
             key_str = 'airTemperature'
         elif key == KeyType.LIGHT_INTENSITY:

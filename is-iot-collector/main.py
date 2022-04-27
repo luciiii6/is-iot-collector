@@ -32,7 +32,7 @@ def main():
         try:
             air_hum = air.get_humidity()
             if air_hum != None:
-                jdata.add_key(json_builder.KeyType.AIR_HUMMIDITY, air_hum)
+                jdata.add_key(json_builder.KeyType.AIR_HUMIDITY, air_hum)
         except:
             pass
 

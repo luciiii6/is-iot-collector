@@ -30,13 +30,13 @@ class LocalTinyDB:
                     if local_moistures[i] > moistures[i] + threshold or local_moistures[i] < moistures[i] - threshold:
                         return True
 
-        # Check air hummidity values
-        if 'airHummidity' in doc.keys():
+        # Check air humidity values
+        if 'airHumidity' in doc.keys():
             reading = Query()
-            threshold = int(utils.get_setting('localReadings/thresholds/airHummidity'))
+            threshold = int(utils.get_setting('localReadings/thresholds/airHumidity'))
             set = self.__db.search(
-                (reading.airHummidity > doc['airHummidity'] + threshold) |
-                (reading.airHummidity < doc['airHummidity'] - threshold))
+                (reading.airHumidity > doc['airHumidity'] + threshold) |
+                (reading.airHumidity < doc['airHumidity'] - threshold))
             if len(set) > 0:
                 return True
 

@@ -9,7 +9,7 @@
         <dbName>local_readings.json</dbName>
         <thresholds>
             <soilMoisture>1</soilMoisture>
-            <airHummidity>1</airHummidity>
+            <airHumidity>1</airHumidity>
             <airTemperature>0.1</airTemperature>
         </thresholds>
     </localReadings>
