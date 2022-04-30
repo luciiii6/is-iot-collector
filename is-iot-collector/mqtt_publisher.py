@@ -12,12 +12,14 @@ class MQTTPublisher:
         self.__client = mqttclient.Client("collector" + self.__id)
         self.__client.on_connect = self.__on_connect
         self.__client.on_disconnect = self.__on_disconnect
+        self.__client.connect(self.__host)
+        self.__client.loop_start()
         #TODO: use authentication
 
     def connect(self):
         if not self.__client.is_connected():
             self.__client.connect(self.__host)
-
+            
     def register(self):
         try:
             self.connect()
@@ -27,9 +29,7 @@ class MQTTPublisher:
 
         register_message = json.dumps({'collectorId' : self.__id})
         try:
-            self.__client.loop_start()
             self.__client.publish(self.__registrationTopic, register_message)
-            self.__client.loop_stop()
             LOG.info("Collector registered succesfully!")
         except Exception as ex:
             LOG.err("MQTT Client failed to publish!")
@@ -42,16 +42,20 @@ class MQTTPublisher:
             return
 
         try:
-            self.__client.loop_start()
             self.__client.publish(self.__topic, message)
-            self.__client.loop_stop()
         except Exception as ex:
             LOG.err("MQTT Client failed to publish!")
 
     def __on_connect(self, client, userdata, flags, rc):
         if rc != 0:
-            LOG.err("MQTT Client failed to connect! Return code = {}".format(rc))
+            LOG.err("MQTT Client failed to connect! Error code = {}".format(rc))
+        else:
+            LOG.info("MQTT Client connected successfully!")        
+            self.register()
 
     def __on_disconnect(self, client, userdata, rc):
+        self.__client.loop_stop()
         if rc != 0:
-            LOG.err("MQTT Client failed to disconnect! Return code = {}".format(rc))
+            LOG.err("MQTT Client failed to disconnect! Error code = {}".format(rc))
+        else:
+            LOG.info("MQTT Client disconnected successfully!")

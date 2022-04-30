@@ -17,7 +17,6 @@ def main():
     register_expires_at = time.time() + register_time
 
     output_file = utils.find_next_output_file()
-    mqtt_client.register()
 
     while(True):
         if time.time() > register_expires_at:
