@@ -18,6 +18,11 @@
         <lowLimit>17904</lowLimit>
         <highLimit>8992</highLimit>
     </soilMoisture>
+    <lightIntensity>
+        <pin>2</pin>
+        <lowLimit>32</lowLimit>
+        <highLimit>1500</highLimit>
+    </lightIntensity>
     <mqtt>
         <host>broker.emqx.io</host>
         <topics>
