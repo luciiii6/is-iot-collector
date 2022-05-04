@@ -24,7 +24,7 @@ def main():
             register_expires_at = time.time() + register_time
 
         jdata = json_builder.JsonBuilder()
-        moisture = soil.get_all_moistures_percent()
+        moisture = soil.percent_all_values()
         if moisture != None:
             jdata.add_key(json_builder.KeyType.SOIL_MOISTURE, moisture)
 
