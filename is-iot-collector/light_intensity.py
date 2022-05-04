@@ -4,7 +4,7 @@ from adc import adc
 
 class LightIntensity:
     def __init__(self):
-        self.__pin = str(utils.get_setting('lightIntensity/pin'))
+        self.__pin = int(utils.get_setting('lightIntensity/pin'))
 
         try:
             adc.register_pin(self.__pin)
