@@ -1,11 +1,11 @@
 import time
 import utils
-from is_iot_collector.readings.soil_moisture import soil_moisture
-from is_iot_collector.readings.air_properties import air_properties
-from is_iot_collector.readings.light_intensity import light_intensity
-from is_iot_collector.mqtt.mqtt_publisher import mqtt_client
-from is_iot_collector.local_tinydb import tiny_db
-from is_iot_collector.json_builder import *
+from readings.soil_moisture import soil_moisture
+from readings.air_properties import air_properties
+from readings.light_intensity import light_intensity
+from mqtt.mqtt_publisher import mqtt_client
+from local_tinydb import tiny_db
+from json_builder import *
 from logger import LOG
 
 def main():
