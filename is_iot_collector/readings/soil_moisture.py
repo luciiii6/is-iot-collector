@@ -65,3 +65,5 @@ class SoilMoisture:
             str_array = pins_str.split(",")
             int_array = [int(x) for x in str_array]
             return int_array
+
+soil_moisture = SoilMoisture()

@@ -59,3 +59,5 @@ class LocalTinyDB:
 
     def __get_first_entry_id(self):
         return self.__db.all()[0].doc_id
+
+tiny_db = LocalTinyDB()

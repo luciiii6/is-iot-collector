@@ -35,3 +35,5 @@ class LightIntensity:
         if percentage > 100:
             percentage = 100
         return round(percentage, 3)
+
+light_intensity = LightIntensity()

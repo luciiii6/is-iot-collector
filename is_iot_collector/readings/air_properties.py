@@ -6,7 +6,7 @@ class AirProperties:
     def __init__(self) -> None:
         self.__dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
 
-    def get_temperature(self):
+    def temperature(self):
         fail_counter = 15
         while fail_counter != 0:
             try:
@@ -22,7 +22,7 @@ class AirProperties:
 
         return None
 
-    def get_humidity(self):
+    def humidity(self):
         fail_counter = 15
         while fail_counter != 0:
             try:
@@ -37,3 +37,5 @@ class AirProperties:
             time.sleep(1)
 
         return None
+
+air_properties = AirProperties()

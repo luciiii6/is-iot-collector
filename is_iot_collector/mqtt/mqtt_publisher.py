@@ -59,3 +59,5 @@ class MQTTPublisher:
             LOG.err("MQTT Client failed to disconnect! Error code = {}".format(rc))
         else:
             LOG.info("MQTT Client disconnected successfully!")
+
+mqtt_client = MQTTPublisher()
