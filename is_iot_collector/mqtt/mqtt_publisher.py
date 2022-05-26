@@ -1,24 +1,31 @@
 import utils
 import json
+import os
 from logger import LOG
 import paho.mqtt.client as mqttclient
 
 class MQTTPublisher:
-    def __init__(self):
-        self.__host = utils.get_setting("mqtt/host")
+    def __init__(self):        
+        self.__host = os.getenv('MQTT_HOST')
+        self.__port = int(utils.get_setting("mqtt/port"))
+        self.__qos = int(utils.get_setting("mqtt/qos"))
+        self.__auth = utils.get_setting("mqtt/auth")
         self.__id = utils.get_setting("id")
-        self.__topic = utils.get_setting("mqtt/topics/data")
+        self.__dataTopic = utils.get_setting("mqtt/topics/data")
         self.__registrationTopic = utils.get_setting("mqtt/topics/registration")
         self.__client = mqttclient.Client("collector" + self.__id)
         self.__client.on_connect = self.__on_connect
         self.__client.on_disconnect = self.__on_disconnect
-        self.__client.connect(self.__host)
+
+        if self.__auth.lower() == "on":
+            self.__client.username_pw_set(os.getenv('MQTT_USERNAME'), os.getenv('MQTT_PASSWORD'))
+
+        self.__client.connect(self.__host, self.__port)
         self.__client.loop_start()
-        #TODO: use authentication
 
     def connect(self):
         if not self.__client.is_connected():
-            self.__client.connect(self.__host)
+            self.__client.connect(self.__host, self.__port)
             
     def register(self):
         try:
@@ -29,7 +36,7 @@ class MQTTPublisher:
 
         register_message = json.dumps({'collectorId' : self.__id})
         try:
-            self.__client.publish(self.__registrationTopic, register_message)
+            self.__client.publish(self.__registrationTopic, register_message, self.__qos)
             LOG.info("Collector registered succesfully!")
         except Exception as ex:
             LOG.err("MQTT Client failed to publish!")
@@ -42,7 +49,7 @@ class MQTTPublisher:
             return
 
         try:
-            self.__client.publish(self.__topic, message)
+            self.__client.publish(self.__dataTopic, message, self.__qos)
         except Exception as ex:
             LOG.err("MQTT Client failed to publish!")
 
