@@ -22,7 +22,7 @@ class LocalTinyDB:
         # Check soil moistures values
         if 'soilMoisture' in doc.keys():
             moistures = doc['soilMoisture']
-            threshold = int(utils.get_setting('localReadings/thresholds/soilMoisture'))
+            threshold = float(utils.get_setting('localReadings/thresholds/soilMoisture'))
             readings = self.__db.all()
             for reading in readings:
                 local_moistures = reading['soilMoisture']
@@ -33,7 +33,7 @@ class LocalTinyDB:
         # Check air humidity values
         if 'airHumidity' in doc.keys():
             reading = Query()
-            threshold = int(utils.get_setting('localReadings/thresholds/airHumidity'))
+            threshold = float(utils.get_setting('localReadings/thresholds/airHumidity'))
             set = self.__db.search(
                 (reading.airHumidity > doc['airHumidity'] + threshold) |
                 (reading.airHumidity < doc['airHumidity'] - threshold))
