@@ -78,7 +78,5 @@ class SoilMoisture:
         else:
             str_array = high_limits_str.split(",")
             self.high_limits = [int(x) for x in str_array]
-        print(self.low_limits)
-        print(self.high_limits)
 
 soil_moisture = SoilMoisture()
