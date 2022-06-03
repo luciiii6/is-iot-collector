@@ -13,9 +13,7 @@ class SoilMoisture:
                 adc.register_pin(pin)
             except Exception as e:
                 LOG.critical(e)
-        
-        self.low_limit = int(utils.get_setting('soilMoisture/lowLimit'))
-        self.high_limit = int(utils.get_setting('soilMoisture/highLimit'))
+        self.__parse_limits()
 
     def percent_value_by_pin(self, pin: int):
         if pin not in self.__pins:
@@ -23,7 +21,7 @@ class SoilMoisture:
             return None
 
         try:
-            return self.__calculate_percentage(adc.raw_value_by_pin(pin))
+            return self.__calculate_percentage(adc.raw_value_by_pin(pin), pin)
         except Exception as ex:
             LOG.err(ex)
             return None
@@ -32,7 +30,7 @@ class SoilMoisture:
         results = []
         try:
             for pin in self.__pins:
-                results.append(self.__calculate_percentage(adc.raw_value_by_pin(pin)))
+                results.append(self.__calculate_percentage(adc.raw_value_by_pin(pin), pin))
             return results
         except Exception as ex:
             LOG.err(ex)
@@ -48,9 +46,9 @@ class SoilMoisture:
         except Exception as ex:
             LOG.err(ex)
             return None
-        
-    def __calculate_percentage(self, raw_value):
-        percentage = abs((raw_value - self.low_limit) / (self.high_limit - self.low_limit)) * 100
+
+    def __calculate_percentage(self, raw_value, pin):
+        percentage = abs((raw_value - self.low_limits[pin]) / (self.high_limits[pin] - self.low_limits[pin])) * 100
         if percentage < 0:
             percentage = 0
         if percentage > 100:
@@ -65,5 +63,22 @@ class SoilMoisture:
             str_array = pins_str.split(",")
             int_array = [int(x) for x in str_array]
             return int_array
+
+    def __parse_limits(self):
+        low_limits_str=str(utils.get_setting('soilMoisture/lowLimits'))
+        high_limits_str=str(utils.get_setting('soilMoisture/highLimits'))
+        if low_limits_str == "":
+            return []
+        else:
+            str_array = low_limits_str.split(",")
+            self.low_limits = [int(x) for x in str_array]
+
+        if high_limits_str == "":
+            return []
+        else:
+            str_array = high_limits_str.split(",")
+            self.high_limits = [int(x) for x in str_array]
+        print(self.low_limits)
+        print(self.high_limits)
 
 soil_moisture = SoilMoisture()

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <setup>
-    <id>0000</id>
-    <readingTime>15</readingTime>
+    <id>0001</id>
+    <readingTime>60</readingTime>
     <!-- Re-register time in seconds. 1h = 3600s -->
     <registerTime>900</registerTime>
     <localReadings>
         <count>5</count>
         <dbName>local_readings.json</dbName>
         <thresholds>
-            <soilMoisture>1</soilMoisture>
-            <airHumidity>1</airHumidity>
-            <airTemperature>0.1</airTemperature>
+            <soilMoisture>0.1</soilMoisture>
+            <airHumidity>0.1</airHumidity>
+            <airTemperature>0.01</airTemperature>
         </thresholds>
     </localReadings>
     <soilMoisture>
         <pins>0,1</pins>
-        <lowLimit>17904</lowLimit>
-        <highLimit>8992</highLimit>
+        <lowLimits>22576,23424</lowLimits>
+        <highLimits>10160,10544</highLimits>
     </soilMoisture>
     <lightIntensity>
         <pin>2</pin>
-        <lowLimit>32</lowLimit>
-        <highLimit>1500</highLimit>
+        <lowLimit>176</lowLimit>
+        <highLimit>4000</highLimit>
     </lightIntensity>
     <mqtt>
         <port>1883</port>
