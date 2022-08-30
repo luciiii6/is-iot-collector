@@ -49,8 +49,6 @@ class SoilMoisture:
 
     def __calculate_percentage(self, raw_value, pin):
         percentage = abs((raw_value - self.low_limits[pin]) / (self.high_limits[pin] - self.low_limits[pin])) * 100
-        if percentage < 0:
-            percentage = 0
         if percentage > 100:
             percentage = 100
         return round(percentage, 3)

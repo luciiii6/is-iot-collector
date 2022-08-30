@@ -30,8 +30,6 @@ class LightIntensity:
         
     def __calculate_percentage(self, raw_value):
         percentage = abs((raw_value - self.low_limit) / (self.high_limit - self.low_limit)) * 100
-        if percentage < 0:
-            percentage = 0
         if percentage > 100:
             percentage = 100
         return round(percentage, 3)
