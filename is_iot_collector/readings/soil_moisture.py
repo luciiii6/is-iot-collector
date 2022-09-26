@@ -1,29 +1,29 @@
 import utils
-from logger import LOG
+import logging
 from adc import adc
 
 class SoilMoisture:
     def __init__(self):
         self.__pins = self.__parse_pins()
         if len(self.__pins) == 0:
-            LOG.critical("Invalid pin configuration!")
+            logging.critical("Invalid pin configuration!")
 
         for pin in self.__pins:
             try:
                 adc.register_pin(pin)
             except Exception as e:
-                LOG.critical(e)
+                logging.critical(e)
         self.__parse_limits()
 
     def percent_value_by_pin(self, pin: int):
         if pin not in self.__pins:
-            LOG.critical("Invalid pin: {}".format(pin))
+            logging.critical("Invalid pin: {}".format(pin))
             return None
 
         try:
             return self.__calculate_percentage(adc.raw_value_by_pin(pin), pin)
         except Exception as ex:
-            LOG.err(ex)
+            logging.error(ex)
             return None
 
     def percent_all_values(self):
@@ -33,18 +33,18 @@ class SoilMoisture:
                 results.append(self.__calculate_percentage(adc.raw_value_by_pin(pin), pin))
             return results
         except Exception as ex:
-            LOG.err(ex)
+            logging.error(ex)
             return None
 
     def raw_value_by_pin(self, pin: int):
         if pin not in self.__pins:
-            LOG.critical("Invalid pin: {}".format(pin))
+            logging.critical("Invalid pin: {}".format(pin))
             return None
 
         try:
             return adc.raw_value_by_pin(pin)
         except Exception as ex:
-            LOG.err(ex)
+            logging.error(ex)
             return None
 
     def __calculate_percentage(self, raw_value, pin):

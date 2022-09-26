@@ -1,8 +1,9 @@
 import board
 import busio
+import logging
 import adafruit_ads1x15.ads1015 as ADS
-from logger import LOG
 from adafruit_ads1x15.analog_in import AnalogIn
+
 
 class ADC:
     def __init__(self):
@@ -11,7 +12,7 @@ class ADC:
             self.__ads = ADS.ADS1015(self.__i2c)
             self.__connected = True
         except:
-            LOG.critical("I2C Bus not connected!")
+            logging.critical("I2C Bus not connected!")
             self.__connected = False
             return
         self.__chans = {}

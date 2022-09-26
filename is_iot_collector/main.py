@@ -24,8 +24,6 @@ def main():
     register_time = int(utils.get_setting('registerTime'))
     register_expires_at = time.time() + register_time
 
-    output_file = utils.find_next_output_file()
-
     while True:
         if time.time() > register_expires_at:
             mqtt_client.register()
@@ -53,10 +51,7 @@ def main():
 
         tiny_db.insert(output)
 
-        LOG.info(output)
-        f = open(output_file, "a")
-        f.write(output + "\n")
-        f.close()
+        logging.info(output)
 
         if tiny_db.is_valid(output):
             mqtt_client.publish(output)

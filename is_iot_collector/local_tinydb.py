@@ -1,7 +1,8 @@
 import utils
 import json
-from logger import LOG
+import logging
 from tinydb import TinyDB, Query
+
 
 class LocalTinyDB:
     def __init__(self):

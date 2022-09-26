@@ -1,5 +1,5 @@
 import utils
-from logger import LOG
+import logging
 from adc import adc
 
 class LightIntensity:
@@ -9,7 +9,7 @@ class LightIntensity:
         try:
             adc.register_pin(self.__pin)
         except Exception as e:
-            LOG.critical(e)
+            logging.critical(e)
         
         self.low_limit = int(utils.get_setting('lightIntensity/lowLimit'))
         self.high_limit = int(utils.get_setting('lightIntensity/highLimit'))
@@ -18,14 +18,14 @@ class LightIntensity:
         try:
             return self.__calculate_percentage(adc.raw_value_by_pin(self.__pin))
         except Exception as ex:
-            LOG.err(ex)
+            logging.error(ex)
             return None
 
     def raw_value(self):
         try:
             return adc.raw_value_by_pin(self.__pin)
         except Exception as ex:
-            LOG.err(ex)
+            logging.error(ex)
             return None
         
     def __calculate_percentage(self, raw_value):
