@@ -1,3 +1,4 @@
+import os
 import time
 import utils
 import yaml
@@ -14,12 +15,13 @@ from is_iot_collector.json_builder import *
 def init_logger(file_path: str):
     with open(file_path, 'r') as f:
         config = yaml.safe_load(f.read())
+    config['handlers']['file_handler']['filename'] = f"{os.getenv('PROJECT_PATH')}/{config['handlers']['file_handler']['filename']}"
 
     logging.config.dictConfig(config)
 
 
 def main():
-    init_logger('../logger_config.yml')
+    init_logger(os.getenv('PROJECT_PATH') + '/logger_config.yml')
     reading_time = int(utils.get_setting('readingTime'))
     register_time = int(utils.get_setting('registerTime'))
     register_expires_at = time.time() + register_time
