@@ -139,3 +139,6 @@ nohup.out
 
 # TinyDB file
 *.json
+
+# PyCharm
+.idea
