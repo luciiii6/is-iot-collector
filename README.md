@@ -59,6 +59,11 @@ nano setup.yml
 export PYTHONPATH=$(pwd):${PYTHONPATH}
 ```
 
+### Configure project path
+```
+export PROJECT_PATH=$(pwd)
+```
+
 ### Run main
 ```
 python3 is-iot-collector/main.py
