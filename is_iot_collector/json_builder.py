@@ -15,7 +15,7 @@ class JsonBuilder:
         self.__data['collectorId'] = utils.get_setting('id')
     
     def add_timestamp(self):
-        if ('date' in self.__data):
+        if 'date' in self.__data:
             return
         now = time.time()
         self.__data['timestamp'] = now
@@ -34,7 +34,7 @@ class JsonBuilder:
         else:
             return
 
-        if (key_str in self.__data):
+        if key_str in self.__data:
             return
 
         self.__data[key_str] = value

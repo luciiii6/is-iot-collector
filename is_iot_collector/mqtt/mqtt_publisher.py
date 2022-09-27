@@ -1,8 +1,9 @@
 import utils
 import json
 import os
-from logger import LOG
+import logging
 import paho.mqtt.client as mqttclient
+
 
 class MQTTPublisher:
     def __init__(self):        
@@ -31,40 +32,40 @@ class MQTTPublisher:
         try:
             self.connect()
         except Exception as ex:
-            LOG.err("MQTT Client failed to connect!")
+            logging.error("MQTT Client failed to connect!")
             return
 
         register_message = json.dumps({'collectorId' : self.__id})
         try:
             self.__client.publish(self.__registrationTopic, register_message, self.__qos)
-            LOG.info("Collector registered succesfully!")
+            logging.info("Collector registered succesfully!")
         except Exception as ex:
-            LOG.err("MQTT Client failed to publish!")
+            logging.error("MQTT Client failed to publish!")
 
     def publish(self, message: str):
         try:
             self.connect()
         except Exception as ex:
-            LOG.err("MQTT Client failed to connect!")
+            logging.error("MQTT Client failed to connect!")
             return
 
         try:
             self.__client.publish(self.__dataTopic, message, self.__qos)
         except Exception as ex:
-            LOG.err("MQTT Client failed to publish!")
+            logging.error("MQTT Client failed to publish!")
 
     def __on_connect(self, client, userdata, flags, rc):
         if rc != 0:
-            LOG.err("MQTT Client failed to connect! Error code = {}".format(rc))
+            logging.error("MQTT Client failed to connect! Error code = {}".format(rc))
         else:
-            LOG.info("MQTT Client connected successfully!")        
+            logging.info("MQTT Client connected successfully!")        
             self.register()
 
     def __on_disconnect(self, client, userdata, rc):
         self.__client.loop_stop()
         if rc != 0:
-            LOG.err("MQTT Client failed to disconnect! Error code = {}".format(rc))
+            logging.error("MQTT Client failed to disconnect! Error code = {}".format(rc))
         else:
-            LOG.info("MQTT Client disconnected successfully!")
+            logging.info("MQTT Client disconnected successfully!")
 
 mqtt_client = MQTTPublisher()
