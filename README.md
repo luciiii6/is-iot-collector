@@ -51,7 +51,7 @@ set -o allexport; source .env; set +o allexport
 
 ### Configure system setup
 ```
-nano setup.xml
+nano setup.yml
 ```
 
 ### Configure python path
