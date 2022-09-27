@@ -142,3 +142,6 @@ nohup.out
 
 # PyCharm
 .idea
+
+# env files
+.env

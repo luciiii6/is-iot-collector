@@ -9,7 +9,7 @@ localReadings:
     airHumidity: 0.1
     airTemperature: 0.01
 soilMoisture:
-  pins: 0,1
+  pins: [0, 1]
   lowLimits: [22576, 23424]
   highLimits: [10160, 10544]
 lightIntensity:

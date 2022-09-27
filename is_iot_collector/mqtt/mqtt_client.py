@@ -1,19 +1,19 @@
-import utils
 import json
 import os
 import logging
 import paho.mqtt.client as mqttclient
+from is_iot_collector.settings import Settings
 
-
-class MQTTPublisher:
-    def __init__(self):        
+class MQTTClient:
+    def __init__(self, settings: Settings):
+        self.__settings = settings      
         self.__host = os.getenv('MQTT_HOST')
-        self.__port = int(utils.get_setting("mqtt/port"))
-        self.__qos = int(utils.get_setting("mqtt/qos"))
-        self.__auth = utils.get_setting("mqtt/auth")
-        self.__id = utils.get_setting("id")
-        self.__dataTopic = utils.get_setting("mqtt/topics/data")
-        self.__registrationTopic = utils.get_setting("mqtt/topics/registration")
+        self.__port = self.__settings.get("mqtt/port")
+        self.__qos = self.__settings.get("mqtt/qos")
+        self.__auth = self.__settings.get("mqtt/auth")
+        self.__id = self.__settings.get("id")
+        self.__dataTopic = self.__settings.get("mqtt/topics/data")
+        self.__registrationTopic = self.__settings.get("mqtt/topics/registration")
         self.__client = mqttclient.Client("collector" + self.__id)
         self.__client.on_connect = self.__on_connect
         self.__client.on_disconnect = self.__on_disconnect
@@ -67,5 +67,3 @@ class MQTTPublisher:
             logging.error("MQTT Client failed to disconnect! Error code = {}".format(rc))
         else:
             logging.info("MQTT Client disconnected successfully!")
-
-mqtt_client = MQTTPublisher()

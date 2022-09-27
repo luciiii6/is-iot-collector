@@ -1,7 +1,7 @@
 import json
 import time
-import utils
 from enum import Enum
+from is_iot_collector.settings import Settings
 
 class KeyType(Enum):
     SOIL_MOISTURE = 0
@@ -10,9 +10,10 @@ class KeyType(Enum):
     LIGHT_INTENSITY = 3
 
 class JsonBuilder:
-    def __init__(self):
+    def __init__(self, settings: Settings):
+        self.__settings = settings
         self.__data = {}
-        self.__data['collectorId'] = utils.get_setting('id')
+        self.__data['collectorId'] = self.__settings.get('id')
     
     def add_timestamp(self):
         if 'date' in self.__data:
@@ -39,6 +40,6 @@ class JsonBuilder:
 
         self.__data[key_str] = value
 
-    def dumps(self):
+    def to_json(self):
         return json.dumps(self.__data)
 
