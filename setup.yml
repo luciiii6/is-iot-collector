@@ -1,0 +1,25 @@
+id: '0001'
+readingTime: 60
+registerTime: 900
+localReadings:
+  count: 5
+  dbName: local_readings.json
+  thresholds:
+    soilMoisture: 0.1
+    airHumidity: 0.1
+    airTemperature: 0.01
+soilMoisture:
+  pins: [0, 1]
+  lowLimits: [22576, 23424]
+  highLimits: [10160, 10544]
+lightIntensity:
+  pin: 2
+  lowLimit: 176
+  highLimit: 4000
+mqtt:
+  port: 1883
+  qos: 2
+  auth: 'on'
+  topics:
+    data: /collector/data/
+    registration: /collector/registration/

@@ -25,5 +25,3 @@ class ADC:
             return self.__chans[pin].value
         else:
             return None
-
-adc = ADC()

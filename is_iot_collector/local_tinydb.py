@@ -1,13 +1,14 @@
-import utils
 import json
 import logging
 from tinydb import TinyDB, Query
+from is_iot_collector.settings import Settings
 
 
 class LocalTinyDB:
-    def __init__(self):
-        self.__db = TinyDB(utils.get_setting('localReadings/dbName'))
-        self.__count = int(utils.get_setting('localReadings/count'))
+    def __init__(self, settings: Settings):
+        self.__settings = settings
+        self.__db = TinyDB(self.__settings.get('localReadings/dbName'))
+        self.__count = self.__settings.get('localReadings/count')
 
     def insert(self, doc):
         if not isinstance(doc, dict):
@@ -23,7 +24,7 @@ class LocalTinyDB:
         # Check soil moistures values
         if 'soilMoisture' in doc.keys():
             moistures = doc['soilMoisture']
-            threshold = float(utils.get_setting('localReadings/thresholds/soilMoisture'))
+            threshold = self.__settings.get('localReadings/thresholds/soilMoisture')
             readings = self.__db.all()
             for reading in readings:
                 local_moistures = reading['soilMoisture']
@@ -34,7 +35,7 @@ class LocalTinyDB:
         # Check air humidity values
         if 'airHumidity' in doc.keys():
             reading = Query()
-            threshold = float(utils.get_setting('localReadings/thresholds/airHumidity'))
+            threshold = self.__settings.get('localReadings/thresholds/airHumidity')
             set = self.__db.search(
                 (reading.airHumidity > doc['airHumidity'] + threshold) |
                 (reading.airHumidity < doc['airHumidity'] - threshold))
@@ -44,7 +45,7 @@ class LocalTinyDB:
         # Check air temperature values
         if 'airTemperature' in doc.keys():
             reading = Query()
-            threshold = float(utils.get_setting('localReadings/thresholds/airTemperature'))
+            threshold = self.__settings.get('localReadings/thresholds/airTemperature')
             set = self.__db.search(
                 (reading.airTemperature > doc['airTemperature'] + threshold) | 
                 (reading.airTemperature < doc['airTemperature'] - threshold))
@@ -60,5 +61,3 @@ class LocalTinyDB:
 
     def __get_first_entry_id(self):
         return self.__db.all()[0].doc_id
-
-tiny_db = LocalTinyDB()

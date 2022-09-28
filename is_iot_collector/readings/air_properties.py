@@ -37,5 +37,3 @@ class AirProperties:
             time.sleep(1)
 
         return None
-
-air_properties = AirProperties()
