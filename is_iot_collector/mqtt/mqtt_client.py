@@ -71,7 +71,7 @@ class MQTTClient:
             self.__settings.set('sinkId', payload['sinkId'])
             self.__dataTopic = '/' + self.__settings.get('sinkId') + self.__settings.get("mqtt/topics/data")
             self.__errorTopic = '/' + self.__settings.get('sinkId') + self.__settings.get('mqtt/topics/errors')
-
+            logging.info(self.__errorTopic)
             logging.info(f"The sink id was received: {self.__settings.get('sinkId')} and topics were initialized")
 
     def subscribe(self, topic: str):
