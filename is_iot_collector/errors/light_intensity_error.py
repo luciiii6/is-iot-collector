@@ -2,7 +2,7 @@
 class LightIntensityError:
     def __init__(self):
         self.counter = 0
-        self.__message = 'Default message \n'
+        self.__message = 'Light intensity sensor does not send values anymore \n'
         self.error_sent = False
 
     def build_message(self, message):
