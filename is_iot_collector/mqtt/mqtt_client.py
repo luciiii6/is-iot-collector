@@ -12,8 +12,6 @@ class MQTTClient:
         self.__qos = self.__settings.get("mqtt/qos")
         self.__auth = self.__settings.get("mqtt/auth")
         self.__id = self.__settings.get("id")
-        self.__dataTopic = f'/{self.__id}' + self.__settings.get("mqtt/topics/data")
-        self.__registrationTopic = f'/{self.__id}' + self.__settings.get("mqtt/topics/registration")
         self.__client = mqttclient.Client("collector" + self.__id)
         self.__client.on_connect = self.__on_connect
         self.__client.on_disconnect = self.__on_disconnect
@@ -24,7 +22,6 @@ class MQTTClient:
 
         self.__client.connect(self.__host, self.__port)
         self.__client.loop_start()
-        # /collector_id/registration
         self.subscribe(f"{self.__id}/registration")
 
     def connect(self):
@@ -73,8 +70,12 @@ class MQTTClient:
 
     def __on_message(self, client, userdata, message):
         if message.topic == f'/{self.__id}/registration/':
-            self.__settings.set('sinkId', message.payload['sinkId'])
-            logging.info(f"The sink id was received: {self.__settings.get('sinkId')}")
+            payload = json.loads(str(message.payload.decode("utf-8")))
+            self.__settings.set('sinkId', payload['sinkId'])
+            self.__dataTopic = '/' + self.__settings.get('sinkId') + self.__settings.get("mqtt/topics/data")
+            self.__registrationTopic = '/' + self.__settings.get('sinkId') + self.__settings.get("mqtt/topics/registration")
+
+            logging.info(f"The sink id was received: {self.__settings.get('sinkId')} and topics were initialized")
 
     def subscribe(self, topic: str):
         self.__client.subscribe(topic, self._qos)
