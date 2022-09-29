@@ -24,3 +24,4 @@ mqtt:
   topics:
     data: /collector/data/
     registration: /collector/registration/
+    errors: /collector/errors/
