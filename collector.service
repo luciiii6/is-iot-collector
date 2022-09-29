@@ -1,8 +1,11 @@
 [Unit]
-Description=sink starter systemd service unit file.
+Description=collector starter systemd service unit file.
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 # The command that should be run when starting this service.
+Type=idle
 ExecStart=/bin/bash /usr/local/bin/startup_collector.sh
 
 [Install]
