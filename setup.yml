@@ -1,6 +1,6 @@
 id: '0001'
 sinkId: 'default'
-readingTime: 60
+readingTime: 1
 registerTime: 900
 localReadings:
   count: 5

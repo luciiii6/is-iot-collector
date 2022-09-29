@@ -86,12 +86,12 @@ class Collector:
             payload.add_timestamp()
             json_payload = payload.to_json()
 
-            self.__local_tiny_db.insert(json_payload)
+            # self.__local_tiny_db.insert(json_payload)
 
             logging.info(json_payload)
 
-            if self.__local_tiny_db.is_valid(json_payload):
-                self.__mqtt_client.publish(json_payload)
+            # if self.__local_tiny_db.is_valid(json_payload):
+            self.__mqtt_client.publish(json_payload)
 
             timeout = self.__reading_time
             while timeout > 0:
