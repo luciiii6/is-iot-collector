@@ -22,7 +22,7 @@ class MQTTClient:
 
         self.__client.connect(self.__host, self.__port)
         self.__client.loop_start()
-        self.subscribe(f"{self.__id}/registration")
+        self.subscribe(self.__registration_topic())
 
     def connect(self):
         if not self.__client.is_connected():
@@ -79,3 +79,6 @@ class MQTTClient:
 
     def subscribe(self, topic: str):
         self.__client.subscribe(topic, self._qos)
+
+    def __registration_topic(self):
+        return f"/{self.__id}/registration"
