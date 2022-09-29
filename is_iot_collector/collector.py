@@ -50,37 +50,39 @@ class Collector:
                 self.__mqtt_client.register()
                 self.__register_expires_at = time.time() + self.__register_time
 
-            if  self.__settings.get('sinkId') != 'default':
-                payload = JsonBuilder(self.__settings)
-                soil_moisture = self.__soil_moisture.percent_all_values()
-                if soil_moisture:
-                    payload.add_key(KeyType.SOIL_MOISTURE, soil_moisture)
+            if  self.__settings.get('sinkId') == 'default':
+                continue
 
-                air_humidity = self.__air_properties.humidity()
-                if air_humidity:
-                    payload.add_key(KeyType.AIR_HUMIDITY, air_humidity)
+            payload = JsonBuilder(self.__settings)
+            soil_moisture = self.__soil_moisture.percent_all_values()
+            if soil_moisture:
+                payload.add_key(KeyType.SOIL_MOISTURE, soil_moisture)
 
-                air_temperature = self.__air_properties.temperature()
-                if air_temperature:
-                    payload.add_key(KeyType.AIR_TEMPERATURE, air_temperature)
+            air_humidity = self.__air_properties.humidity()
+            if air_humidity:
+                payload.add_key(KeyType.AIR_HUMIDITY, air_humidity)
 
-                light_intensity = self.__light_intensity.percent_value()
-                if light_intensity:
-                    payload.add_key(KeyType.LIGHT_INTENSITY, light_intensity)
+            air_temperature = self.__air_properties.temperature()
+            if air_temperature:
+                payload.add_key(KeyType.AIR_TEMPERATURE, air_temperature)
 
-                payload.add_timestamp()
-                json_payload = payload.to_json()
+            light_intensity = self.__light_intensity.percent_value()
+            if light_intensity:
+                payload.add_key(KeyType.LIGHT_INTENSITY, light_intensity)
 
-                self.__local_tiny_db.insert(json_payload)
+            payload.add_timestamp()
+            json_payload = payload.to_json()
 
-                logging.info(json_payload)
+            self.__local_tiny_db.insert(json_payload)
 
-                if self.__local_tiny_db.is_valid(json_payload):
-                    self.__mqtt_client.publish(json_payload)
+            logging.info(json_payload)
 
-                timeout = self.__reading_time
-                while timeout > 0:
-                    timeout -= 1
-                    time.sleep(1)
-                    if not self.__running:
-                        return
+            if self.__local_tiny_db.is_valid(json_payload):
+                self.__mqtt_client.publish(json_payload)
+
+            timeout = self.__reading_time
+            while timeout > 0:
+                timeout -= 1
+                time.sleep(1)
+                if not self.__running:
+                    return
