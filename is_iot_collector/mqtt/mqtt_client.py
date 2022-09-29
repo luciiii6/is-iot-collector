@@ -17,12 +17,15 @@ class MQTTClient:
         self.__client = mqttclient.Client("collector" + self.__id)
         self.__client.on_connect = self.__on_connect
         self.__client.on_disconnect = self.__on_disconnect
+        self._client.on_message = self.__on_message
 
         if self.__auth.lower() == "on":
             self.__client.username_pw_set(os.getenv('MQTT_USERNAME'), os.getenv('MQTT_PASSWORD'))
 
         self.__client.connect(self.__host, self.__port)
         self.__client.loop_start()
+        # /collector_id/registration
+        self.subscribe(f"{self.__id}/registration")
 
     def connect(self):
         if not self.__client.is_connected():
@@ -67,3 +70,11 @@ class MQTTClient:
             logging.error("MQTT Client failed to disconnect! Error code = {}".format(rc))
         else:
             logging.info("MQTT Client disconnected successfully!")
+
+    def __on_message(self, client, userdata, message):
+        if message.topic == f'/{self.__id}/registration/':
+            self.__settings.set('sinkId', message.payload['sinkId'])
+            logging.info(f"The sink id was received: {self.__settings.get('sinkId')}")
+
+    def subscribe(self, topic: str):
+        self.__client.subscribe(topic, self._qos)
