@@ -40,6 +40,18 @@ class MQTTClient:
         except Exception as ex:
             logging.error("MQTT Client failed to publish!")
 
+    def send_errors(self, message: str):
+        try:
+            self.connect()
+        except Exception as ex:
+            logging.error("MQTT Client failed to connect!")
+            return
+
+        try:
+            self.__client.publish(self.__errorTopic, message, self.__qos)
+        except Exception as ex:
+            logging.error("MQTT Client failed to publish!")
+
     def __on_connect(self, client, userdata, flags, rc):
         if rc != 0:
             logging.error("MQTT Client failed to connect! Error code = {}".format(rc))
@@ -58,6 +70,7 @@ class MQTTClient:
             payload = json.loads(str(message.payload.decode("utf-8")))
             self.__settings.set('sinkId', payload['sinkId'])
             self.__dataTopic = '/' + self.__settings.get('sinkId') + self.__settings.get("mqtt/topics/data")
+            self.__errorTopic = '/' + self.__settings.get('sinkId') + self.__settings.get('mqtt/topics/errors')
 
             logging.info(f"The sink id was received: {self.__settings.get('sinkId')} and topics were initialized")
 
