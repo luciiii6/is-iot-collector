@@ -53,6 +53,7 @@ class MQTTClient:
             return
 
         try:
+            #to add sink id before data topic
             self.__client.publish(self.__dataTopic, message, self.__qos)
         except Exception as ex:
             logging.error("MQTT Client failed to publish!")

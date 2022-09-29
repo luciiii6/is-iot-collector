@@ -1,5 +1,5 @@
 id: '0001'
-sinkId: '0000'
+sinkId: 'default'
 readingTime: 60
 registerTime: 900
 localReadings:
