@@ -21,8 +21,8 @@ class MQTTClient:
             self.__client.username_pw_set(os.getenv('MQTT_USERNAME'), os.getenv('MQTT_PASSWORD'))
 
         self.__client.connect(self.__host, self.__port)
-        self.__client.loop_start()
         self.subscribe(self.__registration_topic())
+        self.__client.loop_start()
 
     def connect(self):
         if not self.__client.is_connected():
@@ -45,7 +45,6 @@ class MQTTClient:
             logging.error("MQTT Client failed to connect! Error code = {}".format(rc))
         else:
             logging.info("MQTT Client connected successfully!")        
-            self.register()
 
     def __on_disconnect(self, client, userdata, rc):
         self.__client.loop_stop()
@@ -55,11 +54,10 @@ class MQTTClient:
             logging.info("MQTT Client disconnected successfully!")
 
     def __on_message(self, client, userdata, message):
-        if message.topic == f'/{self.__id}/registration/':
+        if message.topic == self.__registration_topic():
             payload = json.loads(str(message.payload.decode("utf-8")))
             self.__settings.set('sinkId', payload['sinkId'])
             self.__dataTopic = '/' + self.__settings.get('sinkId') + self.__settings.get("mqtt/topics/data")
-            self.__registrationTopic = '/' + self.__settings.get('sinkId') + self.__settings.get("mqtt/topics/registration")
 
             logging.info(f"The sink id was received: {self.__settings.get('sinkId')} and topics were initialized")
 
@@ -67,4 +65,4 @@ class MQTTClient:
         self.__client.subscribe(topic, self.__qos)
 
     def __registration_topic(self):
-        return f"/{self.__id}{self.__settings.get('mqtt/topics/registration/')}"
+        return f"/{self.__id}{self.__settings.get('mqtt/topics/registration')}"
