@@ -25,7 +25,12 @@ class ErrorHandler:
 
             error_message = json.dumps({"collectorId": self.__settings.get('id'), "errors": error_message})
             logging.info(error_message)
-            self.__mqtt_client.send_errors(error_message)
+            if error_message != '':
+                self.__number_detected_errors = 0
+                self.__mqtt_client.send_errors(error_message)
+                return True
+
+        return False
 
     def increment_air_humidity_error(self):
         self.__errors[0].counter+= 1

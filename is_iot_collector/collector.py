@@ -81,7 +81,7 @@ class Collector:
             else:
                 self.__error_handler.increment_light_intensity_error()
 
-            self.__error_handler.check_values()
+            error_sent = self.__error_handler.check_values()
 
             payload.add_timestamp()
             json_payload = payload.to_json()
@@ -91,7 +91,8 @@ class Collector:
             logging.info(json_payload)
 
             # if self.__local_tiny_db.is_valid(json_payload):
-            self.__mqtt_client.publish(json_payload)
+            if not error_sent:
+                self.__mqtt_client.publish(json_payload)
 
             timeout = self.__reading_time
             while timeout > 0:
