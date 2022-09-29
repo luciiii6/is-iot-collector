@@ -11,7 +11,7 @@ from is_iot_collector.mqtt.mqtt_client import MQTTClient
 from is_iot_collector.readings.soil_moisture import SoilMoisture
 from is_iot_collector.readings.air_properties import AirProperties
 from is_iot_collector.readings.light_intensity import LightIntensity
-from is_iot_collector.error_handler import ErrorHandler
+from is_iot_collector.errors.error_handler import ErrorHandler
 
 class Collector:
     def __init__(self, settings=None):
