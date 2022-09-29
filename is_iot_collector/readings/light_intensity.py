@@ -18,7 +18,11 @@ class LightIntensity:
 
     def percent_value(self):
         try:
-            return self.__calculate_percentage(self.__adc.raw_value_by_pin(self.__pin))
+            percentage = self.__calculate_percentage(self.__adc.raw_value_by_pin(self.__pin))
+            if percentage == 100:
+                return None
+
+            return percentage
         except Exception as ex:
             logging.error(ex)
             return None

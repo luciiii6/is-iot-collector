@@ -35,6 +35,10 @@ class SoilMoisture:
         try:
             for pin in self.__pins:
                 results.append(self.__calculate_percentage(self.__adc.raw_value_by_pin(pin), pin))
+
+            if results == [100,100] or result[0] == 100 or results[1] == 100:
+                return None
+
             return results
         except Exception as ex:
             logging.error(ex)

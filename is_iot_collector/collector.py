@@ -11,6 +11,7 @@ from is_iot_collector.mqtt.mqtt_client import MQTTClient
 from is_iot_collector.readings.soil_moisture import SoilMoisture
 from is_iot_collector.readings.air_properties import AirProperties
 from is_iot_collector.readings.light_intensity import LightIntensity
+from is_iot_collector.errors.error_handler import ErrorHandler
 
 class Collector:
     def __init__(self, settings=None):
@@ -30,6 +31,7 @@ class Collector:
         self.__register_time = self.__settings.get('registerTime')
         self.__register_expires_at = time.time() + self.__register_time
         self.__thread = threading.Thread(target = self.__run, daemon = True)
+        self.__error_handler = ErrorHandler(self.__mqtt_client, self.__settings)
 
     def start(self):
         logging.info("Collector application started.")
@@ -46,36 +48,50 @@ class Collector:
 
     def __run(self):
         while self.__running:
-            if time.time() > self.__register_expires_at:
-                self.__mqtt_client.register()
-                self.__register_expires_at = time.time() + self.__register_time
+            if  self.__settings.get('sinkId') == 'default':
+                continue
 
             payload = JsonBuilder(self.__settings)
+
             soil_moisture = self.__soil_moisture.percent_all_values()
             if soil_moisture:
                 payload.add_key(KeyType.SOIL_MOISTURE, soil_moisture)
+                self.__error_handler.reset_soil_moisture()
+            else:
+                self.__error_handler.increment_soil_moisture_error()
 
             air_humidity = self.__air_properties.humidity()
             if air_humidity:
                 payload.add_key(KeyType.AIR_HUMIDITY, air_humidity)
+                self.__error_handler.reset_air_humidity()
+            else:
+                self.__error_handler.increment_air_humidity_error()
 
             air_temperature = self.__air_properties.temperature()
             if air_temperature:
                 payload.add_key(KeyType.AIR_TEMPERATURE, air_temperature)
+                self.__error_handler.reset_air_temperature()
+            else:
+                self.__error_handler.increment_air_temperature_error()
 
             light_intensity = self.__light_intensity.percent_value()
             if light_intensity:
                 payload.add_key(KeyType.LIGHT_INTENSITY, light_intensity)
+                self.__error_handler.reset_light_intensity()
+            else:
+                self.__error_handler.increment_light_intensity_error()
+
+            self.__error_handler.check_values()
 
             payload.add_timestamp()
             json_payload = payload.to_json()
 
-            self.__local_tiny_db.insert(json_payload)
+            # self.__local_tiny_db.insert(json_payload)
 
             logging.info(json_payload)
 
-            if self.__local_tiny_db.is_valid(json_payload):
-                self.__mqtt_client.publish(json_payload)
+            # if self.__local_tiny_db.is_valid(json_payload):
+            self.__mqtt_client.publish(json_payload)
 
             timeout = self.__reading_time
             while timeout > 0:
