@@ -46,10 +46,6 @@ class Collector:
 
     def __run(self):
         while self.__running:
-            if time.time() > self.__register_expires_at:
-                self.__mqtt_client.register()
-                self.__register_expires_at = time.time() + self.__register_time
-
             if  self.__settings.get('sinkId') == 'default':
                 continue
 

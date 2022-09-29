@@ -15,7 +15,7 @@ class MQTTClient:
         self.__client = mqttclient.Client("collector" + self.__id)
         self.__client.on_connect = self.__on_connect
         self.__client.on_disconnect = self.__on_disconnect
-        self._client.on_message = self.__on_message
+        self.__client.on_message = self.__on_message
 
         if self.__auth.lower() == "on":
             self.__client.username_pw_set(os.getenv('MQTT_USERNAME'), os.getenv('MQTT_PASSWORD'))
@@ -27,20 +27,6 @@ class MQTTClient:
     def connect(self):
         if not self.__client.is_connected():
             self.__client.connect(self.__host, self.__port)
-            
-    def register(self):
-        try:
-            self.connect()
-        except Exception as ex:
-            logging.error("MQTT Client failed to connect!")
-            return
-
-        register_message = json.dumps({'collectorId' : self.__id})
-        try:
-            self.__client.publish(self.__registrationTopic, register_message, self.__qos)
-            logging.info("Collector registered succesfully!")
-        except Exception as ex:
-            logging.error("MQTT Client failed to publish!")
 
     def publish(self, message: str):
         try:
@@ -78,7 +64,7 @@ class MQTTClient:
             logging.info(f"The sink id was received: {self.__settings.get('sinkId')} and topics were initialized")
 
     def subscribe(self, topic: str):
-        self.__client.subscribe(topic, self._qos)
+        self.__client.subscribe(topic, self.__qos)
 
     def __registration_topic(self):
-        return f"/{self.__id}/registration"
+        return f"/{self.__id}{self.__settings.get('mqtt/topics/registration/')}"
