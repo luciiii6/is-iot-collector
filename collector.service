@@ -3,6 +3,7 @@ Description=sink starter systemd service unit file.
 
 [Service]
 # The command that should be run when starting this service.
+Type=idle
 ExecStart=/bin/bash /usr/local/bin/startup_collector.sh
 
 [Install]
