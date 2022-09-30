@@ -1,5 +1,6 @@
 id: '0001'
-readingTime: 60
+sinkId: 'default'
+readingTime: 1
 registerTime: 900
 localReadings:
   count: 5
@@ -23,3 +24,4 @@ mqtt:
   topics:
     data: /collector/data/
     registration: /collector/registration/
+    errors: /collector/errors/

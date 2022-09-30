@@ -9,15 +9,13 @@ from pathlib import Path
 from dotenv import Dotenv
 from is_iot_collector.collector import Collector
 
-
-collector = Collector()
-
-
 def set_env_variables():
     env_file_path = Path(os.getenv('PROJECT_PATH') + '/.env')
     dotenv = Dotenv(env_file_path)
     os.environ.update(dotenv)
 
+set_env_variables()
+collector = Collector()
 
 def init_logger(file_path: str):
     with open(file_path, 'r') as f:
@@ -35,7 +33,6 @@ def signal_handler(sig, frame):
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
-    set_env_variables()
     init_logger(os.getenv('PROJECT_PATH') + '/logger_config.yml')
     collector.start()
     while collector.status() == True:
